@@ -1,25 +1,68 @@
-import logo from './logo.svg';
 import './App.css';
+import { generateUsers, generateusers } from './users';
+import React, { Component } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: [],
+      showUsersList: true,
+    };
+
+}
+
+
+componentDidMount() {
+  const users = generateUsers();
+  this.setState({users});
+}
+
+componentDidUpdate(prevProps, prevState) {
+  if (prevState.users !== this.state.users) {
+    document.title = `Left ${this.state.users.length} users`;
+  }
+}
+
+
+
+deleteUser = () => {
+  const {users} = this.state;
+  const randomIndex = Math.random() * users.length;
+  const updateUsers = [...users];
+  updateUsers.splice(randomIndex, 1);
+  this.setState({users: updateUsers});
+};
+
+showUsersList = () => {
+  this.setState((prevState) => ({
+    showUsersList: !prevState.showUsersList,
+  }));
+};
+
+componentWillUnmount(){
+  document.title = `title`;
+}
+
+render() {
+  const {users, showUsersList} = this.state;
+
+  return(
+    <div>
+      <h1>Users List</h1>
+      <button onClick={this.ShowUsersList}>Show Users</button>
+      {showUsersList && (
+        <ul>
+          {users.map((user, index) => (
+            <li key={index}>{user}</li>
+          ))}
+        </ul>
+      )}
+       <button onClick={this.deleteUser}>Delete</button>
     </div>
   );
 }
 
+}
 export default App;
