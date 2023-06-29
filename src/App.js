@@ -30,12 +30,12 @@ componentDidUpdate(prevProps, prevState) {
 deleteUser = () => {
   const {users} = this.state;
   const randomIndex = Math.random() * users.length;
-  const updateUsers = [...users];
-  updateUsers.splice(randomIndex, 1);
-  this.setState({users: updateUsers});
+  const updatedUsers = [...users];
+  updatedUsers.splice(randomIndex, 1);
+  this.setState({users: updatedUsers});
 };
 
-showUsersList = () => {
+ShowUsersList = () => {
   this.setState((prevState) => ({
     showUsersList: !prevState.showUsersList,
   }));
